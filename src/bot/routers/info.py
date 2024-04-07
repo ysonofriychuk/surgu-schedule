@@ -5,12 +5,12 @@ from aiogram.types import Message
 
 router = Router()
 
+with open('src/bot/message/msg_info.txt', 'r', encoding="utf-8") as file:
+    msg_info = file.read()
+
 
 @router.message(Command("info"))
 async def cmd_start(message: Message):
     await message.answer(
-        "Информация:"
-        "/start - Запустить бота"
-        "/info - Информация о боте"
-        "/groupby - Добавить свою группу",
+        msg_info
     )
