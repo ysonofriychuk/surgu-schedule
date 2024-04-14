@@ -1,13 +1,15 @@
+import json
+import pprint
 from datetime import datetime
 
 
 class Schedule:
     def __init__(self, data: dict):
-        pass
+        self.data = data
 
     # Проверка существования группы
     def group_exist(self, group_number: str) -> bool:
-        pass
+        return group_number.lower() in self.data
 
     def get_schedule(self, group_number: str, date):
         # Расписание может отличаться
@@ -18,9 +20,9 @@ class Schedule:
         # LOOK https://habr.com/ru/articles/415829/
         return {
             "schedule": {
-                "groupNumber": "303-31м",  # Номер группы
+                "groupNumber": group_number.lower(),  # Номер группы
                 "currentDate": datetime.now(),
-                "dayWeek": 0,   # 0 - пн, 6 - вс
+                "dayWeek": datetime.today().weekday(),   # 0 - пн, 6 - вс
                 "weekType": 0,  # 0 - числитель, 1 - знаменатель
                 "date": date,   # Дата на которую сгенерировано расписание
                 "lessons": [
@@ -57,3 +59,12 @@ class Schedule:
                 ]
             }
         }
+
+
+if __name__ == "__main__":
+    with open('schedule.json', "r", encoding='utf-8') as file:
+        configuration = json.load(file)
+
+    sh = Schedule(configuration)
+
+    pprint.pprint(sh.get_schedule("606-11", ""))
