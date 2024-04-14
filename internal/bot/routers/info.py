@@ -5,7 +5,7 @@ from aiogram.types import Message
 
 router = Router()
 
-with open('internal/bot/message/msg_info.txt', 'r', encoding="utf-8") as file:
+with open('internal/bot/assets/message/msg_info.txt', 'r', encoding="utf-8") as file:
     msg_info = file.read()
 
 
