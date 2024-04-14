@@ -10,4 +10,3 @@ router = Router()
 async def cmd_start(message: Message):
     # TODO SURGU-010
     pass
-
