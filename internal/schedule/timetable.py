@@ -32,12 +32,10 @@ class Data:
 
 
 def get_lesson_time(lesson: str, number: int):
-    # Структуру ниже нужно возвращать в виде data класса
-    # LOOK https://habr.com/ru/articles/415829/
-    from1 = BASE_TIMETABLE[number][0]
-    to = BASE_TIMETABLE[number][1]
+    from1 = BASE_TIMETABLE[str(number)][0]
+    to = BASE_TIMETABLE[str(number)][1]
     if re.fullmatch(r".*культур\D и спорт.*", lesson):
-        from1 = PHYSICAL_TIMETABLE[number][0]
-        to = PHYSICAL_TIMETABLE[number][1]
+        from1 = PHYSICAL_TIMETABLE[str(number)][0]
+        to = PHYSICAL_TIMETABLE[str(number)][1]
     time = Data(from1, to)
     return time

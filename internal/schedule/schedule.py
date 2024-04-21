@@ -1,6 +1,28 @@
 import json
-import pprint
+from dataclasses import dataclass, field
 from datetime import datetime
+from typing import List
+
+from internal.schedule.timetable import get_lesson_time
+
+
+@dataclass
+class Lesson:
+    type: str
+    number: int
+    info: str
+    time: get_lesson_time(type, number)
+    current: bool
+
+
+@dataclass
+class ScheduleClass:
+    groupNumber: str
+    currentDate = datetime.now()
+    dayWeek: int
+    weekType: int
+    date: str
+    lessons: List[Lesson] = field(default_factory=list)
 
 
 class Schedule:
@@ -18,13 +40,14 @@ class Schedule:
 
         # Структуру ниже нужно возвращать в виде data класса
         # LOOK https://habr.com/ru/articles/415829/
+
         return {
             "schedule": {
-                "groupNumber": group_number.lower(),  # Номер группы
+                "groupNumber": "303-31м",  # Номер группы
                 "currentDate": datetime.now(),
-                "dayWeek": datetime.today().weekday(),   # 0 - пн, 6 - вс
+                "dayWeek": 0,  # 0 - пн, 6 - вс
                 "weekType": 0,  # 0 - числитель, 1 - знаменатель
-                "date": date,   # Дата на которую сгенерировано расписание
+                "date": date,  # Дата на которую сгенерировано расписание
                 "lessons": [
                     {
                         "type": "lesson",  # lesson - информация о занятии, window - окно
@@ -46,16 +69,6 @@ class Schedule:
                         },
                         "current": False,  # Идет ли сейчас эта пара
                     },
-                    {
-                        "type": "lesson",  # lesson - информация о занятии, window - окно
-                        "number": 3,  # Номер пары
-                        "info": "Современная систематика живых организмов (пр). А628,623//ФТД: Этология (пр), А623",  # Описание
-                        "time": {
-                            "from": "10:00",  # Со скольки
-                            "to": "11:20"  # До скольки
-                        },
-                        "current": False,  # Идет ли сейчас эта пара
-                    },
                 ]
             }
         }
@@ -66,5 +79,3 @@ if __name__ == "__main__":
         configuration = json.load(file)
 
     sh = Schedule(configuration)
-
-    pprint.pprint(sh.get_schedule("606-11", ""))
