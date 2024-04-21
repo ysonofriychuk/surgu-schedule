@@ -1,13 +1,15 @@
 # Добавление нового пользователя / обновление данных текущего
+from sqlalchemy.orm import Session
+
+from internal.db.db import engine
+from internal.db.entity.user import User
+
+session = Session(bind=engine)
+
 def set_group():
-    c1 = User(
-        id = message.from_user.id,
-        group = ,
-        created_at =
+    user = User(
+        user_id = ,
+        group =
     )
-
-    session.add(c1)
-
+    session.add(user)
     session.commit()
-
-def get_user_by_id():
