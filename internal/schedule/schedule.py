@@ -4,6 +4,7 @@ from datetime import datetime
 from typing import List
 
 from internal.schedule.timetable import get_lesson_time
+day = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'сб']
 
 
 @dataclass
@@ -11,18 +12,18 @@ class Lesson:
     type: str
     number: int
     info: str
-    time: get_lesson_time(type, number)
+    time: str
     current: bool
 
 
 @dataclass
 class ScheduleClass:
     groupNumber: str
-    currentDate = datetime.now()
+    currentDate = str
     dayWeek: int
     weekType: int
     date: str
-    lessons: List[Lesson] = field(default_factory=list)
+    lessons: list
 
 
 class Schedule:
@@ -34,44 +35,20 @@ class Schedule:
         return group_number.lower() in self.data
 
     def get_schedule(self, group_number: str, date):
+        # Структуру ниже нужно возвращать в виде data класса
+        # LOOK https://habr.com/ru/articles/415829/
         # Расписание может отличаться
         if not self.group_exist(group_number):
             return None
 
-        # Структуру ниже нужно возвращать в виде data класса
-        # LOOK https://habr.com/ru/articles/415829/
+        date_strings = date[:10]
+        date_times = datetime.strptime(date_strings, "%d-%m-%Y")
+        dayWeek = date_times.weekday()
+        lesson = []
 
-        return {
-            "schedule": {
-                "groupNumber": "303-31м",  # Номер группы
-                "currentDate": datetime.now(),
-                "dayWeek": 0,  # 0 - пн, 6 - вс
-                "weekType": 0,  # 0 - числитель, 1 - знаменатель
-                "date": date,  # Дата на которую сгенерировано расписание
-                "lessons": [
-                    {
-                        "type": "lesson",  # lesson - информация о занятии, window - окно
-                        "number": 1,  # Номер пары
-                        "info": "История и методология биологии (пр), ЭОиДОТ",  # Описание
-                        "time": {
-                            "from": "10:00",  # Со скольки
-                            "to": "11:20"  # До скольки
-                        },
-                        "current": False,  # Идет ли сейчас эта пара
-                    },
-                    {
-                        "type": "window",  # lesson - информация о занятии, window - окно
-                        "number": 2,  # Номер пары
-                        "info": "",  # Описание
-                        "time": {  # эти параметры определяет timetable
-                            "from": "10:00",  # Со скольки
-                            "to": "11:20"  # До скольки
-                        },
-                        "current": False,  # Идет ли сейчас эта пара
-                    },
-                ]
-            }
-        }
+        for i in self.data[group_number][day[dayWeek]]:
+            les = Lesson('', i, self.data[group_number][day[dayWeek]][i], )
+            print(self.data[group_number][day[dayWeek]][i])
 
 
 if __name__ == "__main__":
@@ -79,3 +56,5 @@ if __name__ == "__main__":
         configuration = json.load(file)
 
     sh = Schedule(configuration)
+
+    sh.get_schedule("304-21", '22-04-2024-11-30')
