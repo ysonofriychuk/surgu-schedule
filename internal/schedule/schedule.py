@@ -1,4 +1,5 @@
 import json
+import pprint
 from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List
@@ -52,38 +53,37 @@ class Schedule:
         times = date_times.time()
         num = self.data[group_number][day[dayWeek]].keys()
 
-        for i in range(int(list(num)[-1])):
-            try:
-                a = self.data[group_number][day[dayWeek]][str(i+1)]
-                time = get_lesson_time(a, i+1)
+        min_num_lesson = float("inf")
+        max_num_lesson = 0
 
-                time1 = datetime.strptime(time.from1, "%H-%M")
-                time2 = datetime.strptime(time.to, "%H-%M")
-                cur = False
-                if time1.time() <= times <= time2.time():
-                    cur = True
-                c = Lesson('lesson', i+1, a, str(time), cur)
-                lesson.append(c)
-            except:
-                time = get_lesson_time('', i + 1)
-                time1 = datetime.strptime(time.from1, "%H-%M")
-                time2 = datetime.strptime(time.to, "%H-%M")
-                cur = False
-                if time1.time() <= times <= time2.time():
-                    cur = True
-                a = Lesson('window', i+1, '', str(time), cur)
-                lesson.append(a)
+        for num in self.data[group_number][day[dayWeek]]:
+            min_num_lesson = min(int(num), min_num_lesson)
+            max_num_lesson = max(int(num), max_num_lesson)
+
+        for i in range(min_num_lesson, max_num_lesson+1):
+            info = self.data[group_number][day[dayWeek]].get(str(i), "")
+
+            time = get_lesson_time(info, i)
+
+            time1 = datetime.strptime(time.from1, "%H-%M")
+            time2 = datetime.strptime(time.to, "%H-%M")
+            cur = False
+
+            if time1.time() <= times <= time2.time():
+                cur = True
+
+            c = Lesson('lesson' if info else 'window', i, info, str(time), cur)
+            lesson.append(c)
 
         schedule = ScheduleClass(groupNumber=group_number, currentDate=str(datetime.now()), dayWeek=dayWeek, weekType=weekType,
                                  date=date, lessons=lesson)
         return schedule
 
-"""
+
 if __name__ == "__main__":
     with open('schedule.json', "r", encoding='utf-8') as file:
         configuration = json.load(file)
 
     sh = Schedule(configuration)
 
-    sh.get_schedule("303-31м", '25-04-2024-11-30')
-"""
+    pprint.pprint(sh.get_schedule("303-11", '27-04-2024-11-30'))
