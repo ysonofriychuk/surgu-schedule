@@ -40,7 +40,7 @@ def set_group(user_id: int, group: str):
     session.commit()
 
 
-if __name__ == "__main__":
-    set_group(1, "606-11")
-    set_group(2, "501")
-    set_group(1, "606-12")
+# if __name__ == "__main__":
+#     set_group(1, "606-11")
+#     set_group(2, "501")
+#     set_group(1, "606-12")
