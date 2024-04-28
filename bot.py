@@ -8,7 +8,7 @@ from internal.bot.routers.setgroup import router as set_group_router
 
 # Запуск бота
 async def main():
-    bot = Bot(token="7048218592:AAEmKu0BmAuWt8IEKrLdeavolAVMOOzVO-c")
+    bot = Bot(token="7106430476:AAHEhYmcOT0UPAvMZEdWK0HuAk6FYYtW6rk")
     dp = Dispatcher()
 
     dp.include_routers(
