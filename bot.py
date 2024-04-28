@@ -3,7 +3,7 @@ from aiogram import Bot, Dispatcher
 
 from internal.bot.routers.start import router as start_router
 from internal.bot.routers.info import router as info_router
-from internal.bot.routers.set_group import router as set_group_router
+from internal.bot.routers.setgroup import router as set_group_router
 
 
 # Запуск бота
