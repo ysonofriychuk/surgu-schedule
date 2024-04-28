@@ -10,6 +10,7 @@ from sqlalchemy.orm import Session
 
 Base = declarative_base()
 
+
 # Модель пользователя
 class User(Base):
     __tablename__ = "User"
@@ -21,6 +22,18 @@ class User(Base):
 
 engine = create_engine("sqlite:///sqlite3.db")
 Base.metadata.create_all(engine)
+
+
+#получение группы юзера
+def get_group(user_id: int) -> str | None:
+    session = Session(bind=engine)
+    user: User = session.query(User).get(user_id)
+
+    session.close()
+    if user is None:
+        return None
+    return str(user.group)
+
 
 
 def set_group(user_id: int, group: str):
@@ -38,9 +51,13 @@ def set_group(user_id: int, group: str):
 
     session.add(user)
     session.commit()
+    session.close()
 
 
-# if __name__ == "__main__":
-#     set_group(1, "606-11")
-#     set_group(2, "501")
-#     set_group(1, "606-12")
+if __name__ == "__main__":
+    set_group(1, "606-11")
+    set_group(2, "501")
+    set_group(1, "606-12")
+
+    print(get_group(1))
+    print(get_group(6))
