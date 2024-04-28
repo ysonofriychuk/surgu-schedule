@@ -1,59 +1,93 @@
+import json
+import pprint
+from dataclasses import dataclass, field
 from datetime import datetime
+from typing import List
+
+from internal.schedule.timetable import get_lesson_time
+day = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'сб']
+
+
+@dataclass
+class Lesson:
+    type: str
+    number: int
+    info: str
+    time: str
+    current: bool
+
+
+@dataclass
+class ScheduleClass:
+    groupNumber: str
+    currentDate: str
+    dayWeek: int
+    weekType: int
+    date: str
+    lessons: list
 
 
 class Schedule:
     def __init__(self, data: dict):
-        pass
+        self.data = data
 
     # Проверка существования группы
     def group_exist(self, group_number: str) -> bool:
-        pass
+        return group_number.lower() in self.data
 
     def get_schedule(self, group_number: str, date):
         # Расписание может отличаться
         if not self.group_exist(group_number):
             return None
 
-        # Структуру ниже нужно возвращать в виде data класса
-        # LOOK https://habr.com/ru/articles/415829/
-        return {
-            "schedule": {
-                "groupNumber": "303-31м",  # Номер группы
-                "currentDate": datetime.now(),
-                "dayWeek": 0,   # 0 - пн, 6 - вс
-                "weekType": 0,  # 0 - числитель, 1 - знаменатель
-                "date": date,   # Дата на которую сгенерировано расписание
-                "lessons": [
-                    {
-                        "type": "lesson",  # lesson - информация о занятии, window - окно
-                        "number": 1,  # Номер пары
-                        "info": "История и методология биологии (пр), ЭОиДОТ",  # Описание
-                        "time": {
-                            "from": "10:00",  # Со скольки
-                            "to": "11:20"  # До скольки
-                        },
-                        "current": False,  # Идет ли сейчас эта пара
-                    },
-                    {
-                        "type": "window",  # lesson - информация о занятии, window - окно
-                        "number": 2,  # Номер пары
-                        "info": "",  # Описание
-                        "time": {  # эти параметры определяет timetable
-                            "from": "10:00",  # Со скольки
-                            "to": "11:20"  # До скольки
-                        },
-                        "current": False,  # Идет ли сейчас эта пара
-                    },
-                    {
-                        "type": "lesson",  # lesson - информация о занятии, window - окно
-                        "number": 3,  # Номер пары
-                        "info": "Современная систематика живых организмов (пр). А628,623//ФТД: Этология (пр), А623",  # Описание
-                        "time": {
-                            "from": "10:00",  # Со скольки
-                            "to": "11:20"  # До скольки
-                        },
-                        "current": False,  # Идет ли сейчас эта пара
-                    },
-                ]
-            }
-        }
+        date_times = datetime.strptime(date, "%d-%m-%Y-%H-%M")
+        dayWeek = date_times.weekday()
+
+        week_number = date_times.isocalendar()[1]
+        weekType = 0
+        if week_number % 2 == 0:
+            weekType = 1
+
+        lesson = []
+
+        times = date_times.time()
+        num = self.data[group_number][day[dayWeek]].keys()
+
+        min_num_lesson = float("inf")
+        max_num_lesson = 0
+
+        for num in self.data[group_number][day[dayWeek]]:
+            try:
+                num = int(num)
+                min_num_lesson = min(int(num), min_num_lesson)
+                max_num_lesson = max(int(num), max_num_lesson)
+            except:
+                pass
+
+        for i in range(min_num_lesson, max_num_lesson+1):
+            info = self.data[group_number][day[dayWeek]].get(str(i), "")
+
+            time = get_lesson_time(info, i)
+
+            time1 = datetime.strptime(time.from1, "%H-%M")
+            time2 = datetime.strptime(time.to, "%H-%M")
+            cur = False
+
+            if time1.time() <= times <= time2.time():
+                cur = True
+
+            c = Lesson('lesson' if info else 'window', i, info, str(time), cur)
+            lesson.append(c)
+
+        schedule = ScheduleClass(groupNumber=group_number, currentDate=str(datetime.now()), dayWeek=dayWeek, weekType=weekType,
+                                 date=date, lessons=lesson)
+        return schedule
+
+
+if __name__ == "__main__":
+    with open('schedule.json', "r", encoding='utf-8') as file:
+        configuration = json.load(file)
+
+    sh = Schedule(configuration)
+
+    pprint.pprint(sh.get_schedule("102-03", '30-04-2024-17-30'))
