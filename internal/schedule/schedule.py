@@ -57,12 +57,8 @@ class Schedule:
         max_num_lesson = 0
 
         for num in self.data[group_number][day[dayWeek]]:
-            try:
-                num = int(num)
-                min_num_lesson = min(int(num), min_num_lesson)
-                max_num_lesson = max(int(num), max_num_lesson)
-            except:
-                pass
+            min_num_lesson = min(int(num), min_num_lesson)
+            max_num_lesson = max(int(num), max_num_lesson)
 
         for i in range(min_num_lesson, max_num_lesson+1):
             info = self.data[group_number][day[dayWeek]].get(str(i), "")
@@ -90,4 +86,4 @@ if __name__ == "__main__":
 
     sh = Schedule(configuration)
 
-    pprint.pprint(sh.get_schedule("102-03", '30-04-2024-17-30'))
+    pprint.pprint(sh.get_schedule("303-11", '27-04-2024-11-30'))
