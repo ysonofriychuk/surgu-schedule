@@ -35,7 +35,6 @@ def get_group(user_id: int) -> str | None:
     return str(user.group)
 
 
-
 def set_group(user_id: int, group: str):
     session = Session(bind=engine)
 

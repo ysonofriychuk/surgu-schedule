@@ -9,7 +9,6 @@ from internal.schedule.schedule import Schedule
 
 
 router = Router()
-schedule = Schedule({})
 
 with open('internal/bot/assets/message/msg_setgroup_bad.txt', 'r', encoding="utf-8") as file:
     msg_sgbad = file.read()
@@ -30,9 +29,10 @@ async def cmd_start(message: Message):
     if len(message.text.split()) != 2:
         await message.answer_photo(photo=photo_baduser, caption=msg_sgbad.format(name=message.from_user.full_name))
         return
+
     if not schedule.group_exist(message.text.split()[-1]):
-        print(message.from_user.id, message.text.split()[-1])
         await message.answer_photo(photo=photo_baduser, caption=msg_sgbad.format(name=message.from_user.full_name))
         return
+
     set_group(message.from_user.id, message.text.split()[-1])
     await message.answer_photo(photo=photo_gooduser, caption=msg_sggood.format(name=message.from_user.full_name))
