@@ -17,6 +17,7 @@ schedule = Schedule(configuration)
 def handle_user():
     args = request.args
     user_id = args.get("user_id", type=int, default=0)
+    week_day = args.get("week_day", type=, default=0)
 
     if not user_id:
         abort(404)
@@ -31,6 +32,12 @@ def handle_user():
 
     # TODO принимать week_day на основе которого создавать дату
     # TODO если week_day отсутствует, то получать текущую дату
+    if week_day:
+        date=datetime.datetime.now()
+        if date.day <= week_day:
+            date = date + datetime.timedelta(days=week_day)
+        else:
+            date = date + datetime.timedelta(days=7-date.weekday()+week_day)
 
     return redirect(
         url_for(
