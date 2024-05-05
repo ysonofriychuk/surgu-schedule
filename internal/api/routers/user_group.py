@@ -29,6 +29,9 @@ def handle_user():
     if not group_user:
         abort(404)
 
+    # TODO принимать week_day на основе которого создавать дату
+    # TODO если week_day отсутствует, то получать текущую дату
+
     return redirect(
         url_for(
             "schedule_router.handle_schedule",

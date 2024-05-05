@@ -28,4 +28,6 @@ def handle_schedule():
     if not sc:
         abort(404)
 
-    return asdict(sc)
+    # TODO Возвращать HTML страницу с расписанием, сделанным на основе макета
+    # TODO Jinja2, сделать правильное преобразование данных
+    return str(asdict(sc))

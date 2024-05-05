@@ -1,4 +1,5 @@
 from flask import Flask
+
 from internal.api.routers.user_group import blueprint as blueprint_user
 from internal.api.routers.schedule import blueprint as blueprint_schedule
 

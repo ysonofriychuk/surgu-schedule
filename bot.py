@@ -6,6 +6,7 @@ from internal.bot.routers.info import router as info_router
 from internal.bot.routers.setgroup import router as set_group_router
 
 
+# TODO используя dotenv реализовать получние токена из env.env
 # Запуск бота
 async def main():
     bot = Bot(token="6701126210:AAErs3iffBw4sZLoJJJg8fM8327QxCZ04go")

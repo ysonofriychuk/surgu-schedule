@@ -4,7 +4,8 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import List
 
-from internal.schedule.timetable import get_lesson_time
+from internal.schedule.timetable import get_lesson_time, Date
+
 day = ['пн', 'вт', 'ср', 'чт', 'пт', 'сб', 'сб']
 
 
@@ -13,7 +14,7 @@ class Lesson:
     type: str
     number: int
     info: str
-    time: str
+    time: Date
     current: bool
 
 
@@ -24,7 +25,7 @@ class ScheduleClass:
     dayWeek: int
     weekType: int
     date: str
-    lessons: list
+    lessons: list[Lesson]
 
 
 class Schedule:
