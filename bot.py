@@ -8,7 +8,7 @@ from internal.bot.routers.schedule import router as schedule_router
 
 # Запуск бота
 async def main():
-    bot = Bot(token="7106430476:AAHEhYmcOT0UPAvMZEdWK0HuAk6FYYtW6rk")
+    bot = Bot(token="6784641067:AAGEaeTF3GoEN6vOJn1gHMzb-l70gmfLBno")
     dp = Dispatcher()
 
     dp.include_routers(
