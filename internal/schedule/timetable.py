@@ -26,7 +26,7 @@ from dataclasses import dataclass
 
 
 @dataclass
-class Data:
+class Date:
     from1: str
     to: str
 
@@ -37,5 +37,5 @@ def get_lesson_time(lesson: str, number: int):
     if re.fullmatch(r".*культур\D и спорт.*", lesson):
         from1 = PHYSICAL_TIMETABLE[str(number)][0]
         to = PHYSICAL_TIMETABLE[str(number)][1]
-    time = Data(from1, to)
+    time = Date(from1, to)
     return time
