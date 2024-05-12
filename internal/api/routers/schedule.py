@@ -2,8 +2,9 @@ import datetime
 import json
 from dataclasses import asdict
 
-from flask import Blueprint, request, abort
+from flask import Blueprint, request, abort, render_template
 from internal.schedule.schedule import Schedule
+from internal.schedule.timetable import Date
 
 blueprint = Blueprint("schedule_router", __name__)
 
@@ -28,6 +29,19 @@ def handle_schedule():
     if not sc:
         abort(404)
 
-    # TODO Возвращать HTML страницу с расписанием, сделанным на основе макета
-    # TODO Jinja2, сделать правильное преобразование данных
-    return str(asdict(sc))
+    lessons = []
+    for les in sc.lessons:
+        lessons.append(
+            {
+                "time": f"{les.time.from1} - {les.time.to}",
+                "pair": les.number,
+                "discipline": les.info
+            }
+        )
+
+    schedule_data = {
+        "date": sc.date,
+        "schedule": lessons
+    }
+
+    return render_template('schedule.html', **schedule_data)
