@@ -32,19 +32,17 @@ def handle_user():
 
     # TODO принимать week_day на основе которого создавать дату
     # TODO если week_day отсутствует, то получать текущую дату
+    date = datetime.datetime.now()
     if week_day:
-        date = datetime.datetime.now()
         if date.day <= week_day:
             date += datetime.timedelta(days=week_day)
         else:
             date += datetime.timedelta(days=7-date.weekday()+week_day)
-    else:
-        date = datetime.datetime.now()
 
     return redirect(
         url_for(
             "schedule_router.handle_schedule",
             group=group_user,
-            date=date
+            date=date.strftime("%d-%m-%Y-%H-%M")
         ),
     )
