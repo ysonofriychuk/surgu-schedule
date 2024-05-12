@@ -73,7 +73,7 @@ class Schedule:
             if time1.time() <= times <= time2.time():
                 cur = True
 
-            c = Lesson('lesson' if info else 'window', i, info, str(time), cur)
+            c = Lesson('lesson' if info else 'window', i, info, time, cur)
             lesson.append(c)
 
         schedule = ScheduleClass(groupNumber=group_number, currentDate=str(datetime.now()), dayWeek=dayWeek, weekType=weekType,
