@@ -12,20 +12,20 @@
     </style>
 </head>
 <body>
-    <h1>Schedule for {{ date }}</h1>
+    <h1>Расписание на {{ date }}</h1>
     <table>
         <thead>
             <tr>
+                <th>№</th>
                 <th>Время</th>
-                <th>Class</th>
-                <th>Discipline, Room</th>
+                <th>Предмет, кабинет</th>
             </tr>
         </thead>
         <tbody>
             {% for item in schedule %}
             <tr>
-                <td>{{ item.time }}</td>
                 <td>{{ item.pair }}</td>
+                <td>{{ item.time }}</td>
                 <td>{{ item.discipline }}</td>
             </tr>
             {% endfor %}

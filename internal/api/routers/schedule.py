@@ -35,7 +35,7 @@ def handle_schedule():
             {
                 "time": f"{les.time.from1} - {les.time.to}",
                 "pair": les.number,
-                "discipline": les.info
+                "discipline": les.info,
             }
         )
 
