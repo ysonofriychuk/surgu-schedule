@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,24 +8,25 @@
         body { font-family: Arial, sans-serif; }
         table { width: 100%; border-collapse: collapse; }
         th, td { border: 1px solid black; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
+        th, td { background-color: #f2f2f2; }
     </style>
 </head>
 <body>
+    <h1></h1><p class="center">{{ group }}</p></h1>
     <h1>Расписание на {{ date }}</h1>
     <table>
         <thead>
             <tr>
-                <th>№</th>
                 <th>Время</th>
-                <th>Предмет, кабинет</th>
+                <th>Пара</th>
+                <th>Дисциплина, аудитория</th>
             </tr>
         </thead>
         <tbody>
             {% for item in schedule %}
             <tr>
-                <td>{{ item.pair }}</td>
                 <td>{{ item.time }}</td>
+                <td>{{ item.pair }}</td>
                 <td>{{ item.discipline }}</td>
             </tr>
             {% endfor %}
