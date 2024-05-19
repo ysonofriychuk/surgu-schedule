@@ -1,10 +1,8 @@
 import datetime
 import json
-from dataclasses import asdict
 
 from flask import Blueprint, request, abort, render_template
 from internal.schedule.schedule import Schedule
-from internal.schedule.timetable import Date
 
 blueprint = Blueprint("schedule_router", __name__)
 

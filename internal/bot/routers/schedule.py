@@ -7,7 +7,7 @@ from internal.db.db import get_group
 
 router = Router()
 
-host = str("sursu-web-app.tw1.su")
+host = "sursu-web-app.tw1.su"
 
 with open('internal/bot/assets/message/msg_schedule.txt', 'r', encoding="utf-8") as file:
     msg_schedulenice = file.read()
@@ -27,6 +27,8 @@ async def cmd_start(message: Message):
                                    caption=msg_schedulebad.format(name=message.from_user.full_name))
         return
 
+    # TODO: убрать посредника перенеся код из internal/api/routers/user_group.py
+    # TODO: URL = f"https://{host}/schedule?group={}&date={}
     user_id = str(message.from_user.id)
 
     btn = InlineKeyboardMarkup(

@@ -6,8 +6,9 @@ from internal.bot.routers.info import router as info_router
 from internal.bot.routers.setgroup import router as set_group_router
 from internal.bot.routers.schedule import router as schedule_router
 
-# TODO используя dotenv реализовать получние токена из env.env
-# Запуск бота
+
+# TODO реализовать получение токена аргументов запуска скрипта (web.py)
+
 async def main():
     bot = Bot(token="6784641067:AAGEaeTF3GoEN6vOJn1gHMzb-l70gmfLBno")
     dp = Dispatcher()
