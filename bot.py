@@ -1,3 +1,4 @@
+import argparse
 import asyncio
 from aiogram import Bot, Dispatcher
 
@@ -10,7 +11,14 @@ from internal.bot.routers.schedule import router as schedule_router
 # TODO реализовать получение токена аргументов запуска скрипта (web.py)
 
 async def main():
-    bot = Bot(token="6784641067:AAGEaeTF3GoEN6vOJn1gHMzb-l70gmfLBno")
+    parser = argparse.ArgumentParser(
+        description="SurSU Schedule bot"
+    )
+
+    parser.add_argument("--token", help="Token for bot", required=True)
+    args = parser.parse_args()
+
+    bot = Bot(token=args.token)
     dp = Dispatcher()
 
     dp.include_routers(
@@ -22,7 +30,6 @@ async def main():
 
     await bot.delete_webhook(drop_pending_updates=True)
     await dp.start_polling(bot)
-
 
 if __name__ == "__main__":
     asyncio.run(main())
