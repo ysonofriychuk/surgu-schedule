@@ -8,7 +8,7 @@ from internal.bot.routers.setgroup import router as set_group_router
 from internal.bot.routers.schedule import router as schedule_router
 
 
-# TODO реализовать получение токена аргументов запуска скрипта (web.py)
+
 
 async def main():
     parser = argparse.ArgumentParser(
